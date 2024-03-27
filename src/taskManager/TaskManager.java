@@ -1,3 +1,10 @@
+package taskManager;
+
+import epic.Epic;
+import status.Status;
+import task.Task;
+import subTask.SubTask;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,7 +59,7 @@ public class TaskManager {
     }
 
     public SubTask createSubTask(String name, String description, Status status, int idEpic) {
-        SubTask subTask = new SubTask(name, description, generateId(), status);
+        SubTask subTask = new SubTask(name, description, generateId(), status, idEpic);
         subTasks.add(subTask);
         for (Epic epic : epics.keySet()) {
             if (epic.getId() == idEpic) {

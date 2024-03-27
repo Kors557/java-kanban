@@ -1,3 +1,6 @@
+package task;
+
+import status.Status;
 
 public class Task {
     private String name;
@@ -11,17 +14,6 @@ public class Task {
         this.description = description;
         this.id = id;
         this.status = status;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                '}';
     }
 
     public int getId() {
@@ -54,5 +46,15 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "task.Task{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", status=" + status +
+                '}';
     }
 }
