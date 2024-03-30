@@ -1,10 +1,10 @@
-package subTask;
+package task;
 
-import status.Status;
+import task.Status;
 import task.Task;
 
 public class SubTask extends Task {
-    public int idEpic;
+    private int idEpic;
 
     public SubTask(String name, String description, int id, Status status, int idEpic) {
         super(name, description, id, status);
@@ -13,11 +13,15 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "subTask.SubTask{" +
+        return "task.SubTask{" +
                 "name='" + super.getName() + '\'' +
                 ", description='" + super.getDescription() + '\'' +
                 ", id=" + super.getId() +
                 ", status=" + super.getStatus() +
                 '}';
+    }
+
+    public int getIdEpic() {
+        return idEpic;
     }
 }

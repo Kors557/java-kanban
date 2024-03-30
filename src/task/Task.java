@@ -1,7 +1,5 @@
 package task;
 
-import status.Status;
-
 public class Task {
     private String name;
     private String description;

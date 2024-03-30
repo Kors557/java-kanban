@@ -1,9 +1,9 @@
 package taskManager;
 
-import epic.Epic;
-import status.Status;
+import task.Epic;
+import task.Status;
 import task.Task;
-import subTask.SubTask;
+import task.SubTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
