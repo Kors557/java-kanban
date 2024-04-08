@@ -1,16 +1,17 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.Status;
 import task.Task;
 import taskManager.InMemoryTaskManager;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class InMemoryTaskManagerTest {
 
     private InMemoryTaskManager taskManager;
+
     @BeforeEach
     void setUp() {
         taskManager = new InMemoryTaskManager<>();
