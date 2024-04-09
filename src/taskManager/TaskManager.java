@@ -8,6 +8,7 @@ import task.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface TaskManager {
     int generateId();
@@ -38,7 +39,7 @@ public interface TaskManager {
 
     Epic createEpic(String name, String description);
 
-    HashMap<Epic, ArrayList<SubTask>> getAllEpics();
+    Map<Epic, ArrayList<SubTask>> getAllEpics();
 
     Epic getEpicById(int id);
 

@@ -8,14 +8,15 @@ import task.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryTaskManager<T extends Task> implements TaskManager {
     private int nextId = 1;
-    HashMap<Integer, Task> allTasks = new HashMap<>();
+    Map<Integer, Task> allTasks = new HashMap<>();
 
-    HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    Map<Integer, SubTask> subTasks = new HashMap<>();
 
-    HashMap<Epic, ArrayList<SubTask>> epics = new HashMap<>();
+    Map<Epic, ArrayList<SubTask>> epics = new HashMap<>();
 
     private final HistoryManager visitHistory = new InMemoryHistoryManager();
 
@@ -123,7 +124,7 @@ public class InMemoryTaskManager<T extends Task> implements TaskManager {
     }
 
     @Override
-    public HashMap<Epic, ArrayList<SubTask>> getAllEpics() {
+    public Map<Epic, ArrayList<SubTask>> getAllEpics() {
         return epics;
     }
 
