@@ -32,7 +32,7 @@ public interface TaskManager {
 
     void deleteAllSubTasks();
 
-    void deleteById(int id);
+    void deleteSubTaskById(int id);
 
     void updateSubTask(int id, String name, String description, Status status);
 
