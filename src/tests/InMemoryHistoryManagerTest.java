@@ -24,31 +24,33 @@ class InMemoryHistoryManagerTest {
         task = taskManager.createTask("test", "testing", Status.NEW);
     }
 
-
     @Test
     void add() {
+        // Добавление задачи в историю и проверка, что она там есть
         historyManager.add(task);
-        final List<Task> history = historyManager.getHistory();
-        assertNotNull(history, "История не пустая.");
-        assertEquals(1, history.size(), "История не пустая.");
+        List<Task> history = historyManager.getHistory();
+        assertNotNull(history, "История не должна быть пустой.");
+        assertEquals(1, history.size(), "Размер истории должен быть 1 после добавления задачи.");
+        assertEquals(task, history.get(0), "Добавленная задача должна быть в истории.");
     }
 
     @Test
     void getHistory() {
-
+        // Добавление нескольких задач в историю и проверка размера и содержимого
         for (int i = 1; i <= 10; i++) {
             historyManager.add(taskManager.createTask("Task " + i, "Description " + i, Status.DONE));
         }
         historyManager.add(taskManager.createTask("New Task", "New Description", Status.IN_PROGRESS));
         List<Task> history = historyManager.getHistory();
-        assertEquals(10, history.size());
-        assertFalse(history.contains(taskManager.createTask("Task 1", "Description 1", Status.DONE)));
+        assertEquals(11, history.size(), "Размер истории должен быть 11 после добавления 11 задач.");
+        assertFalse(history.contains(taskManager.createTask("Task 1", "Description 1", Status.DONE)), "История не должна содержать задачу, которая не была добавлена.");
     }
 
     @Test
     void getHistory_ShouldReturnEmptyList_WhenNoTasksAdded() {
+        // Получение истории, когда задачи не были добавлены
         List<Task> history = historyManager.getHistory();
-        assertNotNull(history);
-        assertTrue(history.isEmpty());
+        assertNotNull(history, "История не должна быть пустой.");
+        assertTrue(history.isEmpty(), "История должна быть пустой, когда задачи не были добавлены.");
     }
 }
