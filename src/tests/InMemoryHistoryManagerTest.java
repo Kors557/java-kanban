@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.Status;
 import task.Task;
-import taskManager.InMemoryHistoryManager;
-import taskManager.InMemoryTaskManager;
+import taskmanager.InMemoryHistoryManager;
+import taskmanager.InMemoryTaskManager;
 
 import java.util.List;
 
