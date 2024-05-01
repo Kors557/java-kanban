@@ -79,6 +79,7 @@ public class InMemoryTaskManagerTest {
     @Test
     void deleteTaskById() {
         Task task = taskManager.createTask("New Task", "Description", Status.NEW);
+        assertNotNull(task);
         int taskId = task.getId();
         taskManager.deleteTaskById(taskId);
         assertNull(taskManager.getTaskById(taskId));
