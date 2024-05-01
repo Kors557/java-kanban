@@ -48,7 +48,11 @@ public class InMemoryTaskManager<T extends Task> implements TaskManager {
 
     @Override
     public void deleteTaskById(int id) {
-        allTasks.remove(id);
+        if (allTasks.containsKey(id)) {
+            allTasks.remove(id);
+        } else {
+            return;
+        }
     }
 
     @Override
