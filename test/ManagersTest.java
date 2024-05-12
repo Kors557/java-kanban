@@ -1,8 +1,8 @@
-package tests;
+package test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import taskManager.*;
+import taskmanager.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

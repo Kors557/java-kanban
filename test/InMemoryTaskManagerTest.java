@@ -1,10 +1,10 @@
-package tests;
+package test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.Status;
 import task.Task;
-import taskManager.InMemoryTaskManager;
+import taskmanager.InMemoryTaskManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,6 +81,7 @@ public class InMemoryTaskManagerTest {
     @Test
     void deleteTaskById() {
         Task task = taskManager.createTask("New Task", "Description", Status.NEW);
+        assertNotNull(task);
         int taskId = task.getId();
         taskManager.deleteTaskById(taskId);
         assertNull(taskManager.getTaskById(taskId));

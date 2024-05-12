@@ -1,4 +1,4 @@
-package taskManager;
+package taskmanager;
 
 import task.Epic;
 import task.Status;
@@ -42,13 +42,17 @@ public class InMemoryTaskManager<T extends Task> implements TaskManager {
 
     @Override
     public Task getTaskById(int id) {
-        visitHistory.add(allTasks.get(id));
-        return allTasks.get(id);
+        if (allTasks.get(id) != null) {
+            visitHistory.add(allTasks.get(id));
+            return allTasks.get(id);
+        }
+        return null;
     }
 
     @Override
     public void deleteTaskById(int id) {
         allTasks.remove(id);
+        visitHistory.remove(id);
     }
 
     @Override
@@ -82,6 +86,7 @@ public class InMemoryTaskManager<T extends Task> implements TaskManager {
 
     @Override
     public SubTask getSubTaskById(int id) {
+        visitHistory.add(subTasks.get(id));
         return subTasks.get(id);
     }
 
@@ -101,6 +106,7 @@ public class InMemoryTaskManager<T extends Task> implements TaskManager {
             int epicId = subTasks.get(id).getIdEpic();
             subTasks.remove(id);
             epics.get(epicId).remove(id);
+            visitHistory.remove(id);
         }
     }
 
@@ -184,6 +190,7 @@ public class InMemoryTaskManager<T extends Task> implements TaskManager {
     public ArrayList<SubTask> getSubTasksByIdEpic(int id) {
         for (Epic epic : epics.keySet()) {
             if (epic.getId() == id) {
+                visitHistory.add(epics.get(epic).get(id));
                 return epics.get(epic);
             }
         }
