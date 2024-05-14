@@ -14,13 +14,13 @@ public class InMemoryTaskManagerTest {
 
     @BeforeEach
     void setUp() {
-        taskManager = new InMemoryTaskManager<>();
+        taskManager = new InMemoryTaskManager();
     }
 
 
     @Test
     void testCreateTask() {
-        InMemoryTaskManager<Task> taskManager = new InMemoryTaskManager<>();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
         Task task = taskManager.createTask("Task 1", "Description 1", Status.NEW);
         assertEquals(1, task.getId());
         assertEquals("Task 1", task.getName());
@@ -30,7 +30,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     void testGetTaskById() {
-        InMemoryTaskManager<Task> taskManager = new InMemoryTaskManager<>();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
         Task task = taskManager.createTask("Task 1", "Description 1", Status.NEW);
         Task retrievedTask = taskManager.getTaskById(task.getId());
         assertEquals(task, retrievedTask);
@@ -38,7 +38,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void testCreateAndDeleteTask() {
-        InMemoryTaskManager<Task> manager = new InMemoryTaskManager<>();
+        InMemoryTaskManager manager = new InMemoryTaskManager();
         Task task = manager.createTask("Test task", "Description", Status.NEW);
         assertEquals(1, task.getId());
         assertEquals(1, manager.getAllTask().size());
@@ -49,7 +49,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void testCreateAndUpdateTask() {
-        InMemoryTaskManager<Task> manager = new InMemoryTaskManager<>();
+        InMemoryTaskManager manager = new InMemoryTaskManager();
         Task task = manager.createTask("Test task", "Description", Status.NEW);
         Task updatedTask = manager.updateTask("Updated task", "Updated description", Status.IN_PROGRESS, 1);
         assertEquals("Updated task", updatedTask.getName());

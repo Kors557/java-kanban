@@ -9,6 +9,10 @@ public class Epic extends Task {
         super(name, description, id, Status.NEW);
     }
 
+    public Epic() {
+
+    }
+
     @Override
     public String toString() {
         return "task.Epic{" +

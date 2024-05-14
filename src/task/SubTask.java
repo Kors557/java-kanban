@@ -8,6 +8,15 @@ public class SubTask extends Task {
         this.idEpic = idEpic;
     }
 
+    public SubTask() {
+
+    }
+
+
+    public void setEpicId(int id) {
+        this.idEpic = id;
+    }
+
     @Override
     public String toString() {
         return "task.SubTask{" +
