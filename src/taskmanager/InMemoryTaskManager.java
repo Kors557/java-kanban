@@ -115,7 +115,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subTasks.containsKey(id)) {
             int epicId = subTasks.get(id).getIdEpic();
             ArrayList<SubTask> listSubtask = epics.get(getEpicById(epicId));
-            if(listSubtask != null) {
+            if (listSubtask != null) {
                 listSubtask.remove(getSubTaskById(id));
                 epics.put(getEpicById(epicId), listSubtask);
             }
@@ -194,9 +194,6 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Эпик с указанным id не найден");
         }
     }
-
-
-
 
 
     @Override

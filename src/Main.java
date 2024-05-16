@@ -16,7 +16,7 @@ public class Main {
 
         HistoryManager historyManager = Managers.getDefaultHistory();
 
-        FileBackedTaskManager manager = new FileBackedTaskManager("TestName",historyManager);
+        FileBackedTaskManager manager = new FileBackedTaskManager("TestName", historyManager);
         Task task1 = manager.createTask("Test1", "Tecnjdsq nt111", Status.NEW);
         Task task2 = manager.createTask("Test2", "Tecnjdsq nt222", Status.NEW);
         manager.deleteTaskById(task2.getId());
@@ -31,8 +31,7 @@ public class Main {
         FileBackedTaskManager manager1 = new FileBackedTaskManager("TestName", historyManager);
         manager1.loadFromFile(new File("TestName"));
 
-        checkLoadFromFile(manager,manager1);
-
+        checkLoadFromFile(manager, manager1);
 
 
     }

@@ -1,11 +1,9 @@
 package task;
 
-import java.lang.reflect.Type;
-
 public class SubTask extends Task {
     private int idEpic;
 
-    private  TaskType type = TaskType.SUBTASK;
+    private TaskType type = TaskType.SUBTASK;
 
     public SubTask(String name, String description, int id, Status status, int idEpic) {
         super(name, description, id, status);
