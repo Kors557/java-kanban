@@ -5,36 +5,16 @@ import task.*;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    private static final String firstString = "id,type,name,status,description,epic";
-    private static final File file = new File("TASK_CSV");
+    private static final String FIRST_STRING = "id,type,name,status,description,epic";
+    private final File file;
     public static HistoryManager historyManager = Managers.getDefaultHistory();
 
-    public FileBackedTaskManager(HistoryManager historyManager) {
-        super();
-    }
-
-    @Override
-    public ArrayList<Task> getAllTask() {
-        return super.getAllTask();
-    }
-
-    @Override
-    public List<Epic> getAllEpicsList() {
-        return super.getAllEpicsList();
-    }
-
-    @Override
-    public ArrayList<SubTask> getAllSubTasks() {
-        return super.getAllSubTasks();
-    }
-
-    @Override
-    public SubTask getSubTaskById(int id) {
-        return super.getSubTaskById(id);
+    public FileBackedTaskManager(String fileName, HistoryManager historyManager) {
+        super(historyManager);
+        this.file = new File(fileName);
     }
 
     @Override
@@ -115,9 +95,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return newEpic;
     }
 
-    public void save() {
+    private void save() {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
-            bufferedWriter.write(firstString + "\n");
+            bufferedWriter.write(FIRST_STRING + "\n");
 
             for (Task task : getAllTask()) {
                 bufferedWriter.write(toString(task));
@@ -136,7 +116,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    public String toString(Task task) {
+    private String toString(Task task) {
         return switch (task.getType()) {
             case TASK -> task.getId() + ",TASK," + task.getTaskName() + ","
                     + task.getStatus() + "," + task.getDescription() + "\n";
@@ -147,7 +127,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         };
     }
 
-    public static Task fromString(String value) { //создание задачи из строки
+    private static Task fromString(String value) {
         if (value == null || value.isBlank()) {
             return null;
         }
@@ -185,8 +165,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return null;
     }
 
-    public static FileBackedTaskManager loadFromFile(File file) throws IOException {
-        FileBackedTaskManager manager = new FileBackedTaskManager(historyManager);
+    public void loadFromFile(File file) throws IOException {
+        FileBackedTaskManager manager = new FileBackedTaskManager(file.getName(), historyManager);
 
         BufferedReader br = new BufferedReader(new FileReader(file));
         br.readLine();
@@ -201,24 +181,29 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     break;
 
                 case EPIC:
-                    SubTask subTask = (SubTask) fromString(line);
-                    int idEpic = subTask.getIdEpic();
-                    Epic epic = manager.getEpicById(idEpic);
-                    epics.get(epic).add(subTask);
+                    Epic epic = (Epic) fromString(line);
+                    ArrayList<SubTask> subTaskForEpic = new ArrayList<>();
+                    if (epics.get(epic) != null) {
+                        subTaskForEpic = epics.get(epic);
+                    }
+                    epics.put(epic, subTaskForEpic);
                     break;
 
                 case SUBTASK:
-                    SubTask subtaskForSubTask = (SubTask) fromString(line);
-                    int idEpicForSubTask = subtaskForSubTask.getIdEpic();
-                    Epic epicForSubTask = manager.getEpicById(idEpicForSubTask);
-                    ArrayList<SubTask> subTasks = epics.get(epicForSubTask);
-                    if (subTasks == null) {
-                        subTasks = new ArrayList<>();
-                        epics.put(epicForSubTask, subTasks);
+                    SubTask subtask = (SubTask) fromString(line);
+                    int idEpic1 = subtask.getIdEpic();
+                    Epic epic2 = getEpicById(idEpic1);
+                    ArrayList<SubTask> NewSubTasks;
+                    if (!epics.containsKey(epic2)) {
+                        NewSubTasks = new ArrayList<>();
+                        epics.put(epic2, NewSubTasks);
+                    } else {
+                        NewSubTasks = epics.get(epic2);
                     }
-                    subTasks.add(subtaskForSubTask);
+                    subTasks.put(subtask.getId(), subtask);
+                    break;
+
             }
         }
-        return manager;
     }
 }

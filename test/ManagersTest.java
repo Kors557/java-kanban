@@ -18,7 +18,8 @@ class ManagersTest {
 
     @Test
     public void assertEqualsTaskManagerTest() {
-        TaskManager expected = new InMemoryTaskManager();
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        TaskManager expected = new InMemoryTaskManager(historyManager);
         TaskManager actual = Managers.getDefault();
         Assertions.assertNotNull(actual, "Объект не был создан.");
         assertEquals(expected.getAllTask(), actual.getAllTask(), ", tasks");

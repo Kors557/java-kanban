@@ -4,8 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.Status;
 import task.Task;
+import taskmanager.HistoryManager;
 import taskmanager.InMemoryHistoryManager;
 import taskmanager.InMemoryTaskManager;
+import taskmanager.Managers;
 
 import java.util.List;
 
@@ -23,7 +25,8 @@ class InMemoryHistoryManagerTest {
 
     @BeforeEach
     void setUp() {
-        taskManager = new InMemoryTaskManager();
+        HistoryManager visitHistory = Managers.getDefaultHistory();
+        taskManager = new InMemoryTaskManager(visitHistory);
         historyManager = new InMemoryHistoryManager();
         task = taskManager.createTask("test", "testing", Status.NEW);
     }

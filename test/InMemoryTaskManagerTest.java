@@ -4,23 +4,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.Status;
 import task.Task;
+import taskmanager.HistoryManager;
 import taskmanager.InMemoryTaskManager;
+import taskmanager.Managers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class InMemoryTaskManagerTest {
 
     private InMemoryTaskManager taskManager;
+    private HistoryManager visitHistory;
 
     @BeforeEach
     void setUp() {
-        taskManager = new InMemoryTaskManager();
+        visitHistory = Managers.getDefaultHistory();
+        taskManager = new InMemoryTaskManager(visitHistory);
     }
 
 
     @Test
     void testCreateTask() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager(visitHistory);
         Task task = taskManager.createTask("Task 1", "Description 1", Status.NEW);
         assertEquals(1, task.getId());
         assertEquals("Task 1", task.getName());
@@ -30,7 +34,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     void testGetTaskById() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager(visitHistory);
         Task task = taskManager.createTask("Task 1", "Description 1", Status.NEW);
         Task retrievedTask = taskManager.getTaskById(task.getId());
         assertEquals(task, retrievedTask);
@@ -38,7 +42,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void testCreateAndDeleteTask() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
+        InMemoryTaskManager manager = new InMemoryTaskManager(visitHistory);
         Task task = manager.createTask("Test task", "Description", Status.NEW);
         assertEquals(1, task.getId());
         assertEquals(1, manager.getAllTask().size());
@@ -49,7 +53,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void testCreateAndUpdateTask() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
+        InMemoryTaskManager manager = new InMemoryTaskManager(visitHistory);
         Task task = manager.createTask("Test task", "Description", Status.NEW);
         Task updatedTask = manager.updateTask("Updated task", "Updated description", Status.IN_PROGRESS, 1);
         assertEquals("Updated task", updatedTask.getName());
