@@ -34,11 +34,13 @@ public interface TaskManager {
 
     void deleteSubTaskById(int id);
 
-    void updateSubTask(int id, String name, String description, Status status);
+    SubTask updateSubTask(int id, String name, String description, Status status);
 
     Epic createEpic(String name, String description);
 
     Map<Epic, ArrayList<SubTask>> getAllEpics();
+
+    List<Epic> getAllEpicsList();
 
     Epic getEpicById(int id);
 
@@ -53,4 +55,5 @@ public interface TaskManager {
     void checkStatusEpic();
 
     List<? extends Task> getHistory();
+
 }
