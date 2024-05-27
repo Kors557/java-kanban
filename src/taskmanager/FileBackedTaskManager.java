@@ -4,6 +4,7 @@ import exception.ManagerSaveException;
 import task.*;
 
 import java.io.*;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -70,8 +71,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Epic createEpic(String name, String description) {
-        Epic epic = super.createEpic(name, description);
+    public Epic createEpic(String name, String description, Instant startTime, long duration) {
+        Epic epic = super.createEpic(name, description, startTime, duration);
         save();
         return epic;
     }

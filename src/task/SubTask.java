@@ -1,5 +1,7 @@
 package task;
 
+import java.time.Instant;
+
 public class SubTask extends Task {
     private int idEpic;
 
@@ -7,6 +9,11 @@ public class SubTask extends Task {
 
     public SubTask(String name, String description, int id, Status status, int idEpic) {
         super(name, description, id, status);
+        this.idEpic = idEpic;
+    }
+
+    public SubTask(String name, String description, int id, Status status, int idEpic, Instant startTime, long duration) {
+        super(name, description, id, status, startTime, duration);
         this.idEpic = idEpic;
     }
 

@@ -1,12 +1,15 @@
 package task;
 
+import java.time.Instant;
+
 public class Task {
     private String name;
     private String description;
     private int id;
     private Status status;
-
     private TaskType type = TaskType.TASK;
+    private Instant startTime;
+    private long duration;
 
 
     public Task(String name, String description, int id, Status status) {
@@ -14,6 +17,15 @@ public class Task {
         this.description = description;
         this.id = id;
         this.status = status;
+    }
+
+    public Task(String name, String description, int id, Status status, Instant startTime, long duration) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     public Task() {
@@ -52,6 +64,27 @@ public class Task {
         this.status = status;
     }
 
+    public Instant getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public Instant getEndTime() {
+        long secondsInMinute = 60L;
+        return startTime.plusSeconds(duration * secondsInMinute);
+    }
+
     @Override
     public String toString() {
         return "task.Task{" +
@@ -59,6 +92,10 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
+                ", startTime='" + startTime.toEpochMilli() +
+                ", endTime='"
+                + getEndTime().toEpochMilli() +
+                '\'' + ", duration='" + duration +
                 '}';
     }
 
