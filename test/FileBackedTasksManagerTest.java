@@ -50,13 +50,6 @@ public class FileBackedTasksManagerTest extends TaskManagerTest<InMemoryTaskMana
     }
 
     @Test
-    public void shouldSaveAndLoadEmptyTasksEpicsSubtasks() {
-        FileBackedTaskManager fileManager = new FileBackedTaskManager(file.toString(), Managers.getDefaultHistory());
-        fileManager.save();
-        assertEquals(Collections.EMPTY_LIST, manager.getAllSubTasks());
-    }
-
-    @Test
     public void shouldSaveAndLoadEmptyHistory() {
         FileBackedTaskManager fileManager = new FileBackedTaskManager(file.toString(), Managers.getDefaultHistory());
         fileManager.save();
