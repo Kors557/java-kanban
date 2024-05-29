@@ -69,4 +69,5 @@ public interface TaskManager {
 
     List<? extends Task> getHistory();
 
+    void updateTimeEpic(Epic epic);
 }

@@ -308,6 +308,7 @@ public class InMemoryTaskManager implements TaskManager {
         return visitHistory.getHistory();
     }
 
+    @Override
     public void updateTimeEpic(Epic epic) {
         List<SubTask> subtasks = getAllSubTasks();
         Instant startTime = subtasks.getFirst().getStartTime();
@@ -331,18 +332,26 @@ public class InMemoryTaskManager implements TaskManager {
             return true;
         }
         return prioritizedTasks.stream()
-                .allMatch(taskSave -> taskSave.getStartTime() == null || taskSave.getEndTime() == null
-                        || task.getStartTime().isAfter(taskSave.getEndTime())
-                        || task.getEndTime().isBefore(taskSave.getStartTime()));
+                .allMatch(taskSave ->
+                        (taskSave.getStartTime() == null || taskSave.getEndTime() == null) ||
+                                task.getEndTime().isBefore(taskSave.getStartTime()) ||
+                                task.getStartTime().isAfter(taskSave.getEndTime()) ||
+                                (task.getStartTime().isBefore(taskSave.getEndTime()) &&
+                                        task.getEndTime().isAfter(taskSave.getStartTime()))
+                );
     }
 
     private void validateTaskPriority() {
         List<Task> tasks = getPrioritizedTasks();
-        for (int i = 1; i < prioritizedTasks.size(); i++) {
+        if (tasks.size() < 2) {
+            return;
+        }
+        for (int i = 1; i < tasks.size(); i++) {
             Task task = tasks.get(i);
             if (!checkTime(task)) {
                 throw new ManagerException(
-                        "Задачи #" + task.getId() + " и #" + tasks.get(i - 1).getId() + " пересекаются");
+                        "Задачи #" + task.getId() + " и #" + tasks.get(i - 1).getId() + " пересекаются"
+                );
             }
         }
     }
