@@ -4,6 +4,7 @@ import exception.ManagerSaveException;
 import task.*;
 
 import java.io.*;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -22,6 +23,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         Task createTask = super.createTask(name, description, status);
         save();
         return createTask;
+    }
+
+    @Override
+    public Task createTask(Task task) {
+        super.createTask(task);
+        save();
+        return task;
     }
 
     @Override
@@ -44,8 +52,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
+    public Task updateTask(Task task) {
+        super.updateTask(task);
+        save();
+        return task;
+    }
+
+    @Override
     public SubTask createSubTask(String name, String description, Status status, int idEpic) {
         SubTask subTask = super.createSubTask(name, description, status, idEpic);
+        save();
+        return subTask;
+    }
+
+    @Override
+    public SubTask createSubTask(SubTask subTask) {
+        super.createSubTask(subTask);
         save();
         return subTask;
     }
@@ -70,8 +92,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Epic createEpic(String name, String description) {
-        Epic epic = super.createEpic(name, description);
+    public void updateSubTask(SubTask subTask) {
+        super.updateSubTask(subTask);
+        save();
+    }
+
+    @Override
+    public Epic createEpic(String name, String description, Instant startTime, long duration) {
+        Epic epic = super.createEpic(name, description, startTime, duration);
+        save();
+        return epic;
+    }
+
+    @Override
+    public Epic createEpic(Epic epic) {
+        super.createEpic(epic);
         save();
         return epic;
     }
@@ -95,7 +130,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return newEpic;
     }
 
-    private void save() {
+    @Override
+    public void updateEpic(Epic epic) {
+        super.updateEpic(epic);
+        save();
+    }
+
+    public void save() {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
             bufferedWriter.write(FIRST_STRING + "\n");
 

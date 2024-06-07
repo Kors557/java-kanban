@@ -54,7 +54,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void getHistory_ShouldReturnEmptyList_WhenNoTasksAdded() {
+    void getHistoryShouldReturnEmptyListWhenNoTasksAdded() {
         // Получение истории, когда задачи не были добавлены
         List<Task> history = historyManager.getHistory();
         assertNotNull(history, "История не должна быть пустой.");
