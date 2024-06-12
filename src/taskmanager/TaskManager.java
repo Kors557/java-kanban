@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface TaskManager {
     int generateId();
@@ -70,4 +71,6 @@ public interface TaskManager {
     List<? extends Task> getHistory();
 
     void updateTimeEpic(Epic epic);
+
+    public Set<Task> getPrioritizedTasks();
 }

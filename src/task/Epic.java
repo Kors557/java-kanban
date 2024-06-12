@@ -8,7 +8,7 @@ public class Epic extends Task {
 
     private Instant endTime;
 
-    private TaskType type = TaskType.EPIC;
+    private TaskType epicType = TaskType.EPIC;
 
     public Epic(String name, String description, int id) {
         super(name, description, id, Status.NEW);
@@ -42,13 +42,13 @@ public class Epic extends Task {
     }
 
     @Override
-    public TaskType getType() {
-        return type;
+    public TaskType getSubTaskType() {
+        return epicType;
     }
 
     @Override
-    public void setType(TaskType type) {
-        this.type = type;
+    public void setSubTaskType(TaskType subTaskType) {
+        this.epicType = subTaskType;
     }
 
     public Instant getEndTime() {

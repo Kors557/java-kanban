@@ -17,10 +17,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     static Map<Epic, ArrayList<SubTask>> epics = new HashMap<>();
 
-    private final HistoryManager visitHistory;
+    private static HistoryManager visitHistory = null;
 
     public InMemoryTaskManager(HistoryManager visitHistory) {
-        this.visitHistory = visitHistory;
+        InMemoryTaskManager.visitHistory = visitHistory;
     }
 
     private final Comparator<Task> taskComparator = Comparator.comparing(Task::getStartTime);
@@ -121,7 +121,7 @@ public class InMemoryTaskManager implements TaskManager {
             updateTimeEpic(epic);
             return subTask;
         } else {
-            System.out.println("Epic не найден");
+            System.out.println("Epic не найден при выполнении createSubTask");
             return null;
         }
     }
@@ -342,26 +342,39 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void validateTaskPriority() {
-        List<Task> tasks = getPrioritizedTasks();
-        if (tasks.size() < 2) {
+        List<Task> sortedTasks = new ArrayList<>(getPrioritizedTasks()); // Сохраняем порядок
+
+        if (sortedTasks.size() < 2) {
             return;
         }
-        for (int i = 1; i < tasks.size(); i++) {
-            Task task = tasks.get(i);
-            if (!checkTime(task)) {
+
+        for (int i = 1; i < sortedTasks.size(); i++) {
+            Task currentTask = sortedTasks.get(i);
+            Task previousTask = sortedTasks.get(i - 1);
+
+            if (isTasksOverlapping(currentTask, previousTask)) {
                 throw new ManagerException(
-                        "Задачи #" + task.getId() + " и #" + tasks.get(i - 1).getId() + " пересекаются"
+                        "Задачи #" + currentTask.getId() + " и #" + previousTask.getId() + " пересекаются"
                 );
             }
         }
     }
+
+    // Пример реализации метода для проверки пересечения задач
+    private boolean isTasksOverlapping(Task task1, Task task2) {
+        return !(task1.getStartTime() == null || task1.getEndTime() == null
+                || task2.getStartTime() == null || task2.getEndTime() == null)
+                && (task1.getStartTime().isBefore(task2.getEndTime())
+                && task1.getEndTime().isAfter(task2.getStartTime()));
+    }
+
 
     private void addNewPrioritizedTask(Task task) {
         prioritizedTasks.add(task);
         validateTaskPriority();
     }
 
-    private List<Task> getPrioritizedTasks() {
-        return prioritizedTasks.stream().toList();
+    public Set<Task> getPrioritizedTasks() {
+        return new LinkedHashSet<>(prioritizedTasks);
     }
 }

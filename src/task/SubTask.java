@@ -5,7 +5,7 @@ import java.time.Instant;
 public class SubTask extends Task {
     private int idEpic;
 
-    private TaskType type = TaskType.SUBTASK;
+    private TaskType subTaskType = TaskType.SUBTASK;
 
     public SubTask(String name, String description, int id, Status status, int idEpic) {
         super(name, description, id, status);
@@ -42,12 +42,12 @@ public class SubTask extends Task {
     }
 
     @Override
-    public TaskType getType() {
-        return type;
+    public TaskType getSubTaskType() {
+        return subTaskType;
     }
 
     @Override
-    public void setType(TaskType type) {
-        this.type = type;
+    public void setSubTaskType(TaskType subTaskType) {
+        this.subTaskType = subTaskType;
     }
 }

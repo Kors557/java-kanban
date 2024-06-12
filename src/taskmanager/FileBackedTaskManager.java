@@ -158,7 +158,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private String toString(Task task) {
-        return switch (task.getType()) {
+        return switch (task.getSubTaskType()) {
             case TASK -> task.getId() + ",TASK," + task.getTaskName() + ","
                     + task.getStatus() + "," + task.getDescription() + "\n";
             case EPIC -> task.getId() + ",EPIC," + task.getTaskName() + ","
@@ -178,7 +178,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             case TASK:
                 Task task = new Task();
                 task.setTaskName(taskData[2].trim());
-                task.setType(type);
+                task.setSubTaskType(type);
                 task.setDescription(taskData[4].trim());
                 task.setStatus(Status.valueOf(taskData[3].trim()));
                 task.setId(Integer.parseInt(taskData[0].trim()));
@@ -187,7 +187,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             case EPIC:
                 Epic epic = new Epic();
                 epic.setId(Integer.parseInt(taskData[0]));
-                epic.setType(type);
+                epic.setSubTaskType(type);
                 epic.setTaskName(taskData[2]);
                 epic.setDescription(taskData[4]);
                 epic.setStatus(Status.valueOf(taskData[3]));
@@ -196,7 +196,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             case SUBTASK:
                 SubTask subtask = new SubTask();
                 subtask.setId(Integer.parseInt(taskData[0]));
-                subtask.setType(type);
+                subtask.setSubTaskType(type);
                 subtask.setTaskName(taskData[2]);
                 subtask.setDescription(taskData[4]);
                 subtask.setStatus(Status.valueOf(taskData[3]));
@@ -206,7 +206,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return null;
     }
 
-    public void loadFromFile(File file) throws IOException {
+    public static TaskManager loadFromFile(File file) throws IOException {
         FileBackedTaskManager manager = new FileBackedTaskManager(file.getName(), historyManager);
 
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -233,7 +233,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 case SUBTASK:
                     SubTask subtask = (SubTask) fromString(line);
                     int idEpic1 = subtask.getIdEpic();
-                    Epic epic2 = getEpicById(idEpic1);
+                    Epic epic2 = manager.getEpicById(idEpic1);
                     ArrayList<SubTask> newSubTasks;
                     if (!epics.containsKey(epic2)) {
                         newSubTasks = new ArrayList<>();
@@ -246,5 +246,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
             }
         }
+        return null;
     }
 }
