@@ -39,18 +39,18 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) {
-        String path = httpExchange.getRequestURI().getPath();
-        String requestMethod = httpExchange.getRequestMethod();
-        try {
-            switch (requestMethod) {
+        try (httpExchange) {
+            String path = httpExchange.getRequestURI().getPath();
+            String requestMethod = httpExchange.getRequestMethod();
 
-                case "GET": //получение задачи
+            switch (requestMethod) {
+                case "GET":
                     handleGetSubtask(httpExchange);
                     break;
-                case "POST": //добавление или обновление задачи
+                case "POST":
                     handlePostSubtask(httpExchange, path);
                     break;
-                case "DELETE": //удаление задач
+                case "DELETE":
                     handleDeleteSubtask(httpExchange);
                     break;
                 default:
@@ -59,11 +59,9 @@ public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-
-        } finally {
-            httpExchange.close();
         }
     }
+
 
     private void handleGetSubtask(HttpExchange httpExchange) throws IOException {
         String path = httpExchange.getRequestURI().getPath();

@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 
 public class TasksHandler extends BaseHttpHandler implements HttpHandler {
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-    private final String tasksPath = "^/api/v1/tasks$";
-    private final String tasksIdPath = "^/api/v1/tasks/\\d+$";
+    private final String TASKS_PATH = "^/api/v1/tasks$";
+    private final String TASKS_ID_PATH = "^/api/v1/tasks/\\d+$";
     private final
     TaskManager taskManager;
     Gson gson;
@@ -60,11 +60,11 @@ public class TasksHandler extends BaseHttpHandler implements HttpHandler {
 
     private void handleGetTask(HttpExchange httpExchange) throws IOException {
         String path = httpExchange.getRequestURI().getPath();
-        if (Pattern.matches(tasksPath, path)) {
+        if (Pattern.matches(TASKS_PATH, path)) {
             String response = gson.toJson(taskManager.getAllTask());
             sendText200(httpExchange, response, 200);
         }
-        if (Pattern.matches(tasksIdPath, path)) {
+        if (Pattern.matches(TASKS_ID_PATH, path)) {
             String pathId = path.replaceFirst("/api/v1/tasks/", "");
             int id = parsePathId(pathId);
             if (id != -1) {
@@ -78,9 +78,9 @@ public class TasksHandler extends BaseHttpHandler implements HttpHandler {
     }
 
     private void handlePostTask(HttpExchange exchange, String path) throws IOException, TaskNotFoundException {
-        if (Pattern.matches(tasksPath, path)) {
+        if (Pattern.matches(TASKS_PATH, path)) {
             handleAddTask(exchange);
-        } else if (Pattern.matches(tasksIdPath, path)) {
+        } else if (Pattern.matches(TASKS_ID_PATH, path)) {
             handleUpdateTask(exchange, path);
         } else {
             sendBadRequest400(exchange, "Неверный путь запроса", 400);
@@ -137,12 +137,12 @@ public class TasksHandler extends BaseHttpHandler implements HttpHandler {
     private void handleDeleteTask(HttpExchange httpExchange) throws IOException {
         String path = httpExchange.getRequestURI().getPath();
         //все задачи
-        if (Pattern.matches(tasksPath, path)) {
+        if (Pattern.matches(TASKS_PATH, path)) {
             taskManager.deleteAllTasks();
             sendSuccessButNoNeedToReturn201(httpExchange, "Задачи удалены", 201);
         }
         //задачи по айди
-        if (Pattern.matches(tasksIdPath, path)) {
+        if (Pattern.matches(TASKS_ID_PATH, path)) {
             String requestMethod = httpExchange.getRequestMethod();
             String pathId = path.replaceFirst("/api/v1/tasks/", "");
             int id = parsePathId(pathId);
