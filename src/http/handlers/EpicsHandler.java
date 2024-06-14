@@ -15,8 +15,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
-    private final String epicsPath = "^/api/v1/epics$";
-    private final String epicsIdPath = "^/api/v1/epics/\\d+$";
+    private static final String EPICS_PATH = "^/api/v1/epics$";
+    private static final String EPICS_ID_PATH = "^/api/v1/epics/\\d+$";
     private
     TaskManager taskManager;
     Gson gson;
@@ -67,12 +67,12 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
     private void handleGetEpics(HttpExchange httpExchange) throws IOException {
         String path = httpExchange.getRequestURI().getPath();
         //GET все эпики
-        if (Pattern.matches(epicsPath, path)) {
+        if (Pattern.matches(EPICS_PATH, path)) {
             String response = gson.toJson(taskManager.getAllEpics());
             sendText200(httpExchange, response, 200);
         }
         //GET эпик по айди
-        if (Pattern.matches(epicsIdPath, path)) {
+        if (Pattern.matches(EPICS_ID_PATH, path)) {
             String pathId = path.replaceFirst("/api/v1/epics/", "");
             int id = parsePathId(pathId);
             if (id != -1) {
@@ -101,9 +101,9 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
     }
 
     private void handlePostEpics(HttpExchange exchange, String path) throws IOException, TaskNotFoundException {
-        if (Pattern.matches(epicsPath, path)) {
+        if (Pattern.matches(EPICS_PATH, path)) {
             handleAddEpic(exchange);
-        } else if (Pattern.matches(epicsIdPath, path)) {
+        } else if (Pattern.matches(EPICS_ID_PATH, path)) {
             handleUpdateEpic(exchange, path);
         } else {
             sendBadRequest400(exchange, "Неверный путь запроса", 400);
@@ -159,12 +159,12 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
     private void handleDeleteEpics(HttpExchange httpExchange) throws IOException {
         String path = httpExchange.getRequestURI().getPath();
         //все задачи
-        if (Pattern.matches(epicsPath, path)) {
+        if (Pattern.matches(EPICS_PATH, path)) {
             taskManager.deleteAllEpics();
             sendSuccessButNoNeedToReturn201(httpExchange, "Задачи удалены", 201);
         }
         //задачи по айди
-        if (Pattern.matches(epicsIdPath, path)) {
+        if (Pattern.matches(EPICS_ID_PATH, path)) {
             String requestMethod = httpExchange.getRequestMethod();
             String pathId = path.replaceFirst("/api/v1/epics/", "");
             int id = parsePathId(pathId);
