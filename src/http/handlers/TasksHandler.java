@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 
 public class TasksHandler extends BaseHttpHandler implements HttpHandler {
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-    private final String TASKS_PATH = "^/api/v1/tasks$";
-    private final String TASKS_ID_PATH = "^/api/v1/tasks/\\d+$";
+    private static final String TASKS_PATH = "^/api/v1/tasks$";
+    private static final String TASKS_ID_PATH = "^/api/v1/tasks/\\d+$";
     private final
     TaskManager taskManager;
     Gson gson;
