@@ -1,5 +1,7 @@
 package task;
 
+import com.google.gson.annotations.Expose;
+
 import java.time.Instant;
 
 public class Task {
@@ -7,6 +9,7 @@ public class Task {
     private String description;
     private int id;
     private Status status;
+    @Expose(serialize = false, deserialize = false)
     private TaskType type = TaskType.TASK;
     private Instant startTime;
     private long duration;
@@ -99,7 +102,7 @@ public class Task {
                 '}';
     }
 
-    public TaskType getType() {
+    public TaskType getSubTaskType() {
         return type;
     }
 
@@ -111,7 +114,7 @@ public class Task {
         this.name = taskName;
     }
 
-    public void setType(TaskType type) {
-        this.type = type;
+    public void setSubTaskType(TaskType subTaskType) {
+        this.type = subTaskType;
     }
 }
